@@ -1,11 +1,13 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "dev.eeasee.minecraft_client_script",
+  "package": "dev.eeasee.minecraft_client_script.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],
   "client": [
+    "MixinGameMenuScreen",
+    "MixinTitleScreen"
   ],
   "injectors": {
     "defaultRequire": 1

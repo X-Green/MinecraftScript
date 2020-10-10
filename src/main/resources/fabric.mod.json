@@ -14,7 +14,7 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/mcs/icon.png",
+  "icon": "assets/client_script/textures/icon.png",
 
   "environment": "*",
   "entrypoints": {
