@@ -1,25 +1,25 @@
 {
   "schemaVersion": 1,
-  "id": "mine-client-script",
+  "id": "mine-script",
   "version": "${version}",
 
-  "name": "Mine Client Script",
-  "description": "Run scripts on Minecraft clients",
+  "name": "Mine Script",
+  "description": "Run scripts in Minecraft",
   "authors": [
     "eeasee"
   ],
   "contact": {
     "homepage": "",
-    "sources": "https://github.com/X-Green/MineCilentScript"
+    "sources": "https://github.com/X-Green/MineScript"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/client_script/textures/icon.png",
+  "icon": "assets/mine_script/textures/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "dev.eeasee.minecraft_client_script.MinecraftClientScriptMod"
+      "dev.eeasee.minecraft_script.MinecraftScriptMod"
     ]
   },
   "mixins": [

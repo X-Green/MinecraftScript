@@ -1,18 +1,16 @@
-package dev.eeasee.minecraft_client_script.gui.script_manager;
+package dev.eeasee.minecraft_script.gui.script_center;
 
-import dev.eeasee.minecraft_client_script.gui.script_manager.widgets.AbstractScriptManagerPageWidget;
-import net.minecraft.client.MinecraftClient;
+import dev.eeasee.minecraft_script.gui.script_center.pages.AbstractScriptCenterPageWidget;
+import dev.eeasee.minecraft_script.gui.script_center.pages.ScriptEditorPage;
+import dev.eeasee.minecraft_script.gui.script_center.pages.ScriptManagerPage;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
-import net.minecraft.client.gui.screen.options.ControlsListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Identifier;
 
-public class ScriptManagerScreen extends Screen {
+public class ScriptCenterScreen extends Screen {
 
     private Screen parent;
 
@@ -20,29 +18,24 @@ public class ScriptManagerScreen extends Screen {
 
     private ButtonWidget[] pageSelectorButtons;
 
-    private AbstractScriptManagerPageWidget[] pageContents;
+    private AbstractScriptCenterPageWidget[] pageContents;
 
-    public ScriptManagerScreen(Screen previousGui) {
+    public ScriptCenterScreen(Screen previousGui) {
         super(new TranslatableText("cscript.gui.manager_screen"));
         this.parent = previousGui;
     }
 
-    private ControlsListWidget keyBindingListWidget;
-    private ButtonWidget resetButton;
-
     @Override
     protected void init() {
         this.pageSelectorButtons = new ButtonWidget[3];
-        this.pageContents = new AbstractScriptManagerPageWidget[3];
-        WidgetFactory.addPage(this, 0, new TranslatableText("Scripts"), new AbstractScriptManagerPageWidget() );
-        WidgetFactory.addPage(this, 1, new TranslatableText("Editor"), new AbstractScriptManagerPageWidget());
-        WidgetFactory.addPage(this, 2, new TranslatableText("xxx"), new AbstractScriptManagerPageWidget());
+        this.pageContents = new AbstractScriptCenterPageWidget[3];
+        WidgetFactory.addPage(this, 0, new TranslatableText("Manager"), new ScriptManagerPage(this));
+        WidgetFactory.addPage(this, 1, new TranslatableText("Editor"), new ScriptEditorPage(this));
+        WidgetFactory.addPage(this, 2, new TranslatableText("xxx"), new ScriptEditorPage(this));
 
-        //this.keyBindingListWidget = new ControlsListWidget(this, this.client);
-        //this.children.add(this.keyBindingListWidget);
         this.addButton(new ButtonWidget(this.width / 2 - 155 + 160, this.height - 29, 150, 20, ScreenTexts.DONE, (buttonWidget) -> this.client.openScreen(this.parent)));
 
-        this.switchPage(0);
+        this.switchPage(pageSequence);
     }
 
     @Override
@@ -58,11 +51,13 @@ public class ScriptManagerScreen extends Screen {
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
-        //this.keyBindingListWidget.render(matrices, mouseX, mouseY, delta);
+
         drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 8, 16777215);
 
+        // Render page
+        this.currentPage().render(matrices);
 
-        // this.resetButton.active = bl;
+        // Render buttons
         super.render(matrices, mouseX, mouseY, delta);
     }
 
@@ -72,26 +67,34 @@ public class ScriptManagerScreen extends Screen {
         } else {
             this.pageSequence = sequence;
         }
+
+        for (int i = 0; i < this.pageSelectorButtons.length; i++) {
+            if (i != this.pageSequence) {
+                this.pageSelectorButtons[i].active = true;
+                this.pageContents[i].onHide();
+            } else {
+                this.pageSelectorButtons[i].active = false;
+                this.pageContents[i].onShow();
+            }
+        }
         for (ButtonWidget widget : this.pageSelectorButtons) {
             widget.active = true;
         }
         this.pageSelectorButtons[this.pageSequence].active = false;
     }
 
-    public AbstractScriptManagerPageWidget currentPage() {
+    private AbstractScriptCenterPageWidget currentPage() {
         return pageContents[pageSequence];
     }
 
     private static class WidgetFactory {
-        private static void addPage(ScriptManagerScreen screen, int sequence, Text title, AbstractScriptManagerPageWidget page) {
+        private static void addPage(ScriptCenterScreen screen, int sequence, Text title, AbstractScriptCenterPageWidget page) {
             final int baseY = 40;
             final int intervalY = 10;
-            final int x = 20;
+            final int x = 12;
             final int width = 60;
             final int height = 20;
-            ButtonWidget.PressAction action = (buttonWidget) -> {
-                screen.switchPage(sequence);
-            };
+            ButtonWidget.PressAction action = (buttonWidget) -> screen.switchPage(sequence);
             ButtonWidget buttonWidget = new ButtonWidget(
                     x, baseY + (intervalY + height) * sequence, width, height, title, action
             );
@@ -107,24 +110,4 @@ public class ScriptManagerScreen extends Screen {
 
     }
 
-    public static class ScriptManagerButtonWidget {
-
-        private static final Identifier SCRIPT_MANAGER_ICON_TEXTURE = new Identifier("client_script","textures/gui/manager.png");
-
-        public static ButtonWidget newScriptManagerButtonWidget(Screen screen) {
-            return new TexturedButtonWidget(
-                    screen.width / 2 + 128,
-                    screen.height / 4 + 48 + 72 + 12,
-                    20,
-                    20,
-                    0,
-                    0,
-                    20,
-                    SCRIPT_MANAGER_ICON_TEXTURE,
-                    32,
-                    64,
-                    (buttonWidget) -> MinecraftClient.getInstance().openScreen(new ScriptManagerScreen(screen))
-            );
-        }
-    }
 }

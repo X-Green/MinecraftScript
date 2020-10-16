@@ -1,6 +1,6 @@
-package dev.eeasee.minecraft_client_script.mixin;
+package dev.eeasee.minecraft_script.mixin;
 
-import dev.eeasee.minecraft_client_script.gui.script_manager.ScriptManagerScreen;
+import dev.eeasee.minecraft_script.gui.script_center.ScriptCenterButtonWidget;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
@@ -18,6 +18,6 @@ public abstract class MixinGameMenuScreen extends Screen {
 
     @Inject(at = @At("RETURN"), method = "initWidgets()V")
     private void drawMenuButton(CallbackInfo ci) {
-        addButton(ScriptManagerScreen.ScriptManagerButtonWidget.newScriptManagerButtonWidget(this));
+        addButton(ScriptCenterButtonWidget.newScriptManagerButtonWidget(this));
     }
 }
