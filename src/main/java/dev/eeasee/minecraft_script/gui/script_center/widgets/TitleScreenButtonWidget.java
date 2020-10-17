@@ -1,12 +1,13 @@
-package dev.eeasee.minecraft_script.gui.script_center;
+package dev.eeasee.minecraft_script.gui.script_center.widgets;
 
+import dev.eeasee.minecraft_script.gui.script_center.ScriptCenterScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.util.Identifier;
 
-public class ScriptCenterButtonWidget {
+public class TitleScreenButtonWidget {
 
     private static final Identifier SCRIPT_MANAGER_ICON_TEXTURE = new Identifier("mine_script","textures/gui/manager.png");
 

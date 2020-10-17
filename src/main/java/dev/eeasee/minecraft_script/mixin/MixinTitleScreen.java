@@ -1,6 +1,6 @@
 package dev.eeasee.minecraft_script.mixin;
 
-import dev.eeasee.minecraft_script.gui.script_center.ScriptCenterButtonWidget;
+import dev.eeasee.minecraft_script.gui.script_center.widgets.TitleScreenButtonWidget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.text.Text;
@@ -18,6 +18,6 @@ public abstract class MixinTitleScreen extends Screen {
 
     @Inject(at = @At("RETURN"), method = "initWidgetsNormal(II)V")
     private void drawMenuButton(CallbackInfo ci) {
-        this.addButton(ScriptCenterButtonWidget.newScriptManagerButtonWidget(this));
+        this.addButton(TitleScreenButtonWidget.newScriptManagerButtonWidget(this));
     }
 }
