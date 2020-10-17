@@ -3,12 +3,14 @@ package dev.eeasee.minecraft_script.gui.script_center;
 import dev.eeasee.minecraft_script.gui.script_center.subscreens.ScreenBrowse;
 import dev.eeasee.minecraft_script.gui.script_center.subscreens.ScreenCreate;
 import dev.eeasee.minecraft_script.gui.script_center.subscreens.ScreenMarket;
+import dev.eeasee.minecraft_script.script_parser.ScriptParserManager;
 import dev.eeasee.minecraft_script.utils.InModTranslatableScreenTexts;
 import dev.eeasee.minecraft_script.utils.ScreenBackToParentOnClose;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 
 public class ScriptCenterScreen extends ScreenBackToParentOnClose {
@@ -35,6 +37,10 @@ public class ScriptCenterScreen extends ScreenBackToParentOnClose {
         this.addButton(new ButtonWidget(this.width / 2 - 102, this.height / 4 + 24 * 5 - 16, 204, 20,
                 ScreenTexts.BACK,
                 (buttonWidget) -> this.onClose()));
+        this.addButton(new ButtonWidget(this.width / 2 - 102, this.height / 4 + 24 * 6 - 16, 60, 20,
+                new LiteralText("TEST"),
+                (buttonWidget) -> ScriptParserManager.tryRunScript()));
+
     }
 
     @Override
